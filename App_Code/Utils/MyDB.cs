@@ -105,12 +105,13 @@ public class MyDB
     {
         using (OleDbConnection connection = new OleDbConnection(connectionString))
         {
-            using (OleDbCommand cmd = new OleDbCommand(SQLString, connection))
+            using (OleDbCommand cmd = connection.CreateCommand())
             {
                 try
                 {
                     connection.Open();
-                    int rows = cmd.ExecuteNonQuery();
+                    cmd.CommandText = SQLString;
+                    int rows = (int)cmd.ExecuteScalar();                  
                     return rows;
                 }
                 catch (System.Data.OleDb.OleDbException E)
