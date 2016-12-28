@@ -3,7 +3,8 @@
 using System;
 using System.Web;
 using System.Configuration;
-public class login : IHttpHandler {
+using System.Web.SessionState;
+public class login : IHttpHandler,IRequiresSessionState {
 
     public void ProcessRequest (HttpContext context) {
         string name = context.Request.Params["name"] == null ? "" : context.Request.Params["name"].ToString();
@@ -11,9 +12,13 @@ public class login : IHttpHandler {
         string usertype= context.Request.Params["utype"] == null ? "" : context.Request.Params["utype"].ToString();
 
         String sql = "select COUNT(*) from userInfo where username='" + name + "' and  password='" + password + "' and usertype='" + usertype + "';";
-       int rowcount = MyDB.ExecuteSql(sql);
+        int rowcount = MyDB.ExecuteSql(sql);
         string result = rowcount>0?"success":"failure";
-        
+        if (rowcount > 0)
+        {
+            HttpContext.Current.Session["usename"] = name;
+            HttpContext.Current.Session["utype"] = usertype;
+        }
 
 
         context.Response.ContentType = "text/json";
