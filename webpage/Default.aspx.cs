@@ -13,7 +13,5 @@ public partial class webservice_Default : System.Web.UI.Page
 
         Logging.LogInit();
         Logging.LogInfo("mmddd");
-       
-      
     }
 }
