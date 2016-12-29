@@ -44,7 +44,7 @@
         <h2 class="form-signin-heading">ece学生信息管理系统</h2>
         <label for="inputEmail" class="sr-only">用户名</label>
         <input type="text" id="inputUser" class="form-control" placeholder="用户名" required="" autofocus="">
-
+          <br>
         <label for="inputPassword" class="sr-only">密码</label>
         <input type="password" id="inputPassword" class="form-control" placeholder="密码" required="">
        <div class="row">
@@ -89,6 +89,10 @@
             if (document.getElementById('mgr').checked) {
                 usertype = 0;
             }
+            if ($("#inputUser").val() == "")
+                {alert("请输入用户名");return;}
+            if ($("#inputPassword").val() == "")
+             {alert("请输入用户密码");return;}
             $.ajax({
                 type: "post",
                 url: "../../services/login.ashx",
@@ -111,8 +115,7 @@
                                 break;
                             default:
                                 break;
-                        }
-                        
+                        }                        
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
