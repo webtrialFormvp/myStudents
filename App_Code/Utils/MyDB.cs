@@ -123,6 +123,59 @@ public class MyDB
         }
     }
     /// <summary>    
+    /// 执行SQL语句，返回影响的记录数    
+    /// </summary>    
+    /// <param name="SQLString">SQL语句</param>    
+    /// <returns>影响的记录数</returns>    
+    public static int ExecuteUpdateSql(string SQLString)
+    {
+        OleDbConnection connection = new OleDbConnection(connectionString);
+        OleDbCommand cmd = connection.CreateCommand();
+           
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = SQLString;
+                    int rows=cmd.ExecuteNonQuery();
+                    return rows;
+                }
+                catch (System.Data.OleDb.OleDbException E)
+                {
+                    connection.Close();
+                    throw new Exception(E.Message);
+                }
+         
+    }
+
+    /// <summary>
+    /// 返回查询信息
+    /// </summary>
+    /// <param name="SQLString"></param>
+    /// <returns></returns>
+    public static String ExecuteSQL(string SQLString)
+    {
+        using (OleDbConnection connection = new OleDbConnection(connectionString))
+        {
+            using (OleDbCommand cmd = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+                    cmd.CommandText = SQLString;
+                  
+                    String rows = (String)cmd.ExecuteScalar();
+                    return rows;
+                }
+                catch (System.Data.OleDb.OleDbException E)
+                {
+                    connection.Close();
+                    throw new Exception(E.Message);
+                }
+            }
+        }
+    }
+
+    /// <summary>    
     /// 执行SQL语句，设置命令的执行等待时间    
     /// </summary>    
     /// <param name="SQLString"></param>    
